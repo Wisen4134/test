@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="description" content="[AJAX test]">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>AJAX test</title>
+  <style>
+    body {
+      font-size: 38px;
+    }
+
+    .profile {
+      border: 1px solid #333;
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    
+
+    .profile__name {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+<!-- html本體不放東西，下面這個只是讓我們JS放東西用的-->
+  <div class="app">
+    <div class="profile">
+    </div>
+  </div>
+
+  <script>
+    // XMLHttpRequest是瀏覽器提供的Http api元件，市面上比較知名的套件都是以這個為基底實作，甚至ES6之後的Fetch也是利用XMLHttpRequest結合Promise做出來的。
+    const request = new XMLHttpRequest();
+
+    // 在request產生出來的時候綁定事件 = onload
+    request.onload = function () {
+      if (request.status >= 200 && request.status < 400) {
+
+        // request.response是接收到物件，但如果使用responseText就會直接轉成String
+        console.log(request.responseText);
+
+        //將回傳字串轉成Json
+        var res = JSON.parse(request.responseText);
+
+        //data是array，這個API裡面有6組物件
+        var data = res.data;
+
+        // 方法1
+        var container = document.querySelector('.app');
+        for (let index = 0; index < data.length; index++) {
+            var div = document.createElement('div');
+            div.innerHTML = `<div>${data[index].first_name} ${data[index].last_name}</div> <img src="${data[index].avatar}"/> <br/>` 
+            container.appendChild(div); 
+            
+        }
+        
+        // 方法2
+        res.data.forEach(element => {
+            console.log(element);
+            var idtext  = document.createElement('div');
+            var id = document.createElement('img');
+            
+            id.src = element.avatar;
+            document.querySelector('.profile').append(idtext,`${element.first_name + element.last_name}`,id);
+            
+        });
+        
+        
+      } else {
+        console.log('err');
+      }
+    }
+
+
+    request.onerror = function () {
+      console.log('error')
+    }
+
+    // requset.open是指我們建立一個request物件，用GET方法，傳送要求到https://reqres.in/api/users，true代表使用非同步請求，不然網頁會卡住
+    request.open('GET', 'https://reqres.in/api/users', true)
+    
+    // 把妳建好的request正式丟出
+    request.send();
+    
+  </script>
+</body>
+
+</html>
