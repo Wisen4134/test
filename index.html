@@ -1,114 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
     <style>
-        p:hover::before{
-            color:red;
+        p:hover::before {
+            color: red;
             content: "顯示在前面";
         }
-        P::after{
+
+        P::after {
             content: counter("p1");
+        }
+
+        /* reset */
+        body,
+        h1,
+        ul,
+        li {
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* NavBar */
+        nav {
+            background: #eee;
+            box-shadow: 0px 1px 3px #000 88;
+        }
+
+        nav::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        nav h1 {
+            float: left;
+            padding-left: 50px;
+            line-height: 50px;
+        }
+
+        /* 隱藏 checkbox */
+        input {
+            display: none;
+        }
+
+        /* 漢堡按鈕 */
+        label {
+            float: right;
+            padding-right: 50px;
+            line-height: 50px;
+            cursor: pointer;
+        }
+
+        label img {
+            width: 30px;
+            vertical-align: middle;
+        }
+
+        /* menu*/
+        .menu {
+            clear: both;
+            background: #fff;
+        }
+
+        .menu li {
+            text-align: center;
+            border-bottom: 1px solid #efefef;
+        }
+
+        .menu li a {
+            display: block;
+            line-height: 50px;
+            font-size: 18px;
+            color: #5d5d5d;
+        }
+
+        .menu li a:hover {
+            background: #5d5d5d;
+            color: #fff;
+        }
+
+        /* 下拉選單效果 */
+        .menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.5s;
+            /* 動畫秒數 */
+        }
+
+        input:checked~.menu {
+            max-height: 300px;
+        }
+
+        /* mediaquery */
+        @media screen and (min-width: 768px) {
+            label {
+                display: none;
+            }
+
+            .menu {
+                float: right;
+                clear: none;
+                max-height: 50px;
+                background: #eee;
+            }
+
+            .menu li {
+                display: inline-block;
+            }
+
+            .menu li a {
+                padding: 0 15px;
+            }
         }
     </style>
     <script src="snowfall.js"></script>
 </head>
+
 <body>
-    <p >
+    <p>
         test
     </p>
     <img src="test.png" alt="沒讀到" height="100px" width="100px">
     <p id="p1"></p>
     <button class="btn" onclick="ck()">click</button>
+
+    <nav>
+        <h1>漢堡控制項練習(Pure Css版)</h1>
+        <label for="switch"><img src="burger.png" alt="找不到漢堡啦！"></label>
+        <input type="checkbox" name="" id="switch"><!--選單開關-->
+        <ul class="menu">
+            <li><a href="#t5">Page1</a></oi>
+            <li><a href="page2.html">Page2</a></oi>
+            <li><a href="page3.html">Page3</a></oi>
+            <li><a href="./accroding/index.html">滑塊頁面</a></oi>
+            <li><a href="./scroll/index.html">滾動頁面</a></oi>
+        </ul>
+    </nav>
+
     <ul>
         <oi><button id="btn1" onclick="LinkToPage()">1</button></li>
-        <oi><button id="btn2" onclick="LinkToPage()">2</button></li>
-        <oi><button id="btn3" onclick="LinkToPage()">3</button></li>
-        <oi><button>4</button></li>
-        <oi><button>5</button></li>
+            <oi><button id="btn2" onclick="LinkToPage()">2</button></li>
+                <oi><button id="btn3" onclick="LinkToPage()">3</button></li>
+                    <oi><button>4</button></li>
+                        <oi><button>5</button></li>
     </ul>
 
-    <ul>
-        <oi><a href="#t5">Page1</a></oi>
-        <oi><a href="page2.html">Page2</a></oi>
-        <oi><a href="page3.html">Page3</a></oi>
-        <oi><a href="./accroding/index.html">滑塊頁面</a></oi>
-        <oi><a href="./scroll/index.html">滾動頁面</a></oi>
-    </ul>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+
+    <br />
+    <br />
+    <br />
+    <br />
     <h1 id="t1">我是h1</h1>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <br />
     <h1 id="t2">我是h1</h1>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <br />
     <h1 id="t3">我是h2</h1>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <br />
     <h1 id="t4">我是h4</h1>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <br />
     <h1 id="t5">我是h5</h1>
 
 
     <iframe src="temp.html" frameborder="0"></iframe>
     <script>
         let snowfall = new Snowfall({
-    // number of snowflakes
-    count: 50,
-    // min/max size
-    minRadius: 10,
-    maxRadius: 30,
-    // min/max speed
-    minSpeed: 3,
-    maxSpeed: 10,
-    // custom symbol or text for snowflakes
-    text: "\u2744", 
-    // color of snowflakes
-    color: "black",
-    // z-index for the canvas
-    zIndex: "1000" 
-});
-        var btn  = document.getElementsByClassName("btn");
+            // number of snowflakes
+            count: 50,
+            // min/max size
+            minRadius: 10,
+            maxRadius: 30,
+            // min/max speed
+            minSpeed: 3,
+            maxSpeed: 10,
+            // custom symbol or text for snowflakes
+            text: "\u2744",
+            // color of snowflakes
+            color: "black",
+            // z-index for the canvas
+            zIndex: "1000"
+        });
+        var btn = document.getElementsByClassName("btn");
         var count = 0;
-        function ck(){
-             var p1 = document.getElementById("p1");
-             p1.innerHTML =  count ++ ;
-             
+        function ck() {
+            var p1 = document.getElementById("p1");
+            p1.innerHTML = count++;
+
         }
-        function LinkToPage(){
+        function LinkToPage() {
             var btn = document.getElementsByTagName("button");
-            for(let i = 0;btn.length; i++)
-            {
-                if(btn[i].id === "btn1")
-                {
-                    btn[i].href="t5"
+            for (let i = 0; btn.length; i++) {
+                if (btn[i].id === "btn1") {
+                    btn[i].href = "t5"
                 }
-                else if(btn[i].id ==="btn2")
-                {
-                    btn[i].href="page2.html"
+                else if (btn[i].id === "btn2") {
+                    btn[i].href = "page2.html"
                 }
-                else if(btn[i].id ==="btn3")
-                {
-                    btn[i].href="page3.html"
+                else if (btn[i].id === "btn3") {
+                    btn[i].href = "page3.html"
                 }
             }
         }
