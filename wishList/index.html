@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish-List</title>
+    <style>
+        *{ box-sizing: border-box; position: relative;}
+        html, body{width: 100%;height: 100%;margin: 0;padding: 0;font-family: '微軟正黑體';background-color: #131c2d;}
+        button{border-width: 0px; font-size: 14px; padding: 4px 24px; cursor: pointer; height: 39px;}
+        button:focus{outline: 0px;}
+        .wrapper{max-width: 480px; max-height: 500px; width: 90%; margin: auto; text-align: center;}
+        .pageTitle{font-size: 48px; color: #D8F1FF; padding-top: 50px; padding-bottom: 20px; margin: 0px;}
+        .content{width: 100%; background-color: #f3f3f3; padding-top: 20px; padding-bottom: 20px;}
+        .inputBox{display: block; vertical-align: middle; margin: auto; margin-top: 20px;}
+        .text{padding: 6px; margin: 0px;margin-right: -6px; border-width: 0px; height: 39px; max-width: 300px; width: 70%;}
+        .text:focus{outline: 0px;}
+        .submit{background-color: #142443; color: #fff; border: 1px solid #070c15; transition: .3s;}
+        .submit:hover{background-color: #0a1324;}
+        .wishList{text-align: left; width: 95%; margin: 10px auto; list-style: none; padding: 10px;}
+        .wishItem{width: 100%; background-color: #fff; border-bottom: 1px solid #eeeeee; overflow: hidden;}
+        .del{cursor: pointer; background-color: #40C7A1; padding: 8px 12px; display: inline-block; color: #fff; transition: .3s;}
+        .del:hover{background-color: rgb(235, 82, 82);}
+        .value{margin-left: 10px; margin-right: 10px;}
+        .clearWishList{display: block; margin: auto; background-color: #F54A6F; color: #fff; border: 1px solid #f52f5a; transition: .3s;}
+        .clearWishList:hover{background-color: #e92e56;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1 class="pageTitle">Wish-List</h1>
+        <div class="content">
+            <div class="inputBox">
+                <input type="text" class="text" placeholder="Type Some Wish Here.">
+                <button class="submit">儲存</button>
+            </div>
+            <ul class="wishList"></ul>
+            <button class="clearWishList">Clear</button>
+        </div>
+    </div>
+    
+    <script>
+        // saveWish //儲存資料在 localstrage 並輸出在頁面
+        // postWish //新增資料
+        // setWishList //製作資料清單
+        // removeWishList //清除資料清單
+        // updateWishList //更新資料
+
+
+        // 儲存的變數，這邊要特別注意，在第一次提取會取不到資料（null），因此如果無資料就建立空陣列
+        const wishList = JSON.parse(window.localStorage.getItem('wishList')) || [];
+        function saveWish() {
+            /*
+            | 得到 input 內容，先確認是否為空值
+            | push 到陣列
+            | 執行 localStroage
+            | 刪除 input 內容
+            | 回傳 input 內容
+            */
+            const value = document.querySelector('.text').value;
+            if (!value) return alert('你沒有輸入願望喔！');
+            wishList.push(value);
+            updateWishList(wishList);
+            document.querySelector('.text').value = '';
+            return value;
+        }
+        function setWishList() {
+            /*
+            | 用 for 將陣列印在網頁上
+            */
+            for(let i = 0; i < wishList.length; i++) {
+                const item = document.createElement('li');
+                item.classList.add('wishItem');
+                item.innerHTML = `
+                <span class="del">X</span><span class="value">${wishList[i]}</span>
+                `
+                document.querySelector('.wishList').appendChild(item);
+            }
+        }
+        function postWish(value){
+            /*
+            | 得到 input 內容，先確認是否為空值
+            | 將內容新增至 wishList
+            */
+            if (!value) return;
+            const item = document.createElement('li');
+            item.classList.add('wishItem');
+            item.innerHTML = `
+            <span class="del">X</span><span class="value">${value}</span>
+            `
+            document.querySelector('.wishList').appendChild(item);
+        }
+
+        function removeWishList() {
+            /*
+            | 刪除 localstorage 資料
+            */
+            window.localStorage.clear();
+            let element = document.querySelector('.wishList')
+
+            /*
+            | 用迴圈的方式刪除所有的 li
+            */
+            while(element.firstChild) {
+                element.removeChild(element.firstChild);
+            }
+            wishList.length = 0;
+        }
+        function updateWishList(newArr) {
+            /*
+            | 將陣列轉成字串，存入 localstorage
+            */
+            window.localStorage.setItem('wishList', JSON.stringify(newArr));
+        }
+
+
+        // 監聽事件
+        document.querySelector(".submit").addEventListener('click',function(){
+            postWish(saveWish());
+        });
+
+        document.querySelector(".clearWishList").addEventListener('click',function(){
+            removeWishList();
+        });
+
+        document.querySelector(".wishList").addEventListener('click',function(e){
+            /*
+            | 得到點擊的位置，先確認是否是刪除按鈕（利用判斷 class）
+            | 取得 li
+            | 刪除 li
+            */
+            if(!e.target.classList.contains("del")) return;
+            let item = e.target.parentElement
+            item.remove();
+
+            /*
+            | 先得到 li 內容，並找出對應的位置
+            | 從清單上刪除
+            | 更新至 localStroage
+            */
+            let itemConent = item.children[1].textContent;
+            let index = wishList.indexOf(itemConent)
+            wishList.splice(index,1)
+            updateWishList(wishList);
+        });
+
+
+        // 一開始印出願望清單在網頁上
+        setWishList();
+    </script>
+</body>
+</html>
