@@ -1,297 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+    <title>前端練習小天地 | Frontend Playground</title>
     <style>
-        p:hover::before {
-            color: red;
-            content: "顯示在前面";
-        }
-
-        P::after {
-            content: counter("p1");
-        }
-
-        /* reset */
-        body,
-        h1,
-        ul,
-        li {
-            margin: 0;
-        }
-
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        ul {
-            list-style: none;
-            padding-left: 0;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
         }
 
-        a {
-            text-decoration: none;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* NavBar */
-        nav {
-            background: #eee;
-            box-shadow: 0px 1px 3px #000 88;
-        }
-
-        nav::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-
-        nav h1 {
-            float: left;
-            padding-left: 50px;
-            line-height: 50px;
-        }
-
-        /* 隱藏 checkbox */
-        input {
-            display: none;
-        }
-
-        /* 漢堡按鈕 */
-        label {
-            float: right;
-            padding-right: 50px;
-            line-height: 50px;
-            cursor: pointer;
-        }
-
-        label img {
-            width: 30px;
-            vertical-align: middle;
-        }
-
-        /* top */
-        .top {
-            position: sticky;
-            bottom: 20px;
-            margin-right: 10px;
-
-            /* visual styling */
-            width: 100%;
-            aspect-ratio: 1;
-            background: #ff8b24;
-            border-radius: 10px;
-        }
-
-        .top:before {
-            content: "";
-            position: absolute;
-            inset: 30%;
-            transform: translateY(20%) rotate(-45deg);
-            border-top: 5px solid #fff;
-            border-right: 5px solid #fff;
-        }
-
-        .container-top {
-            display: flex;
-            align-items: flex-end;
-            width: 60px;
-        }
-
-        /* menu*/
-        .menu {
-            clear: both;
-            background: #fff;
-        }
-
-        .menu li {
+        header {
             text-align: center;
-            border-bottom: 1px solid #efefef;
+            color: white;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.6s ease-out;
         }
 
-        .menu li a {
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
             display: block;
-            line-height: 50px;
-            font-size: 18px;
-            color: #5d5d5d;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
         }
 
-        .menu li a:hover {
-            background: #5d5d5d;
-            color: #fff;
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
         }
 
-        /* 下拉選單效果 */
-        .menu {
-            max-height: 0;
-            overflow: hidden;
-            transition: 0.5s;
-            /* 動畫秒數 */
+        .demo-card:nth-child(1) { animation-delay: 0.1s; }
+        .demo-card:nth-child(2) { animation-delay: 0.2s; }
+        .demo-card:nth-child(3) { animation-delay: 0.3s; }
+        .demo-card:nth-child(4) { animation-delay: 0.4s; }
+        .demo-card:nth-child(5) { animation-delay: 0.5s; }
+        .demo-card:nth-child(6) { animation-delay: 0.6s; }
+        .demo-card:nth-child(7) { animation-delay: 0.7s; }
+        .demo-card:nth-child(8) { animation-delay: 0.8s; }
+        .demo-card:nth-child(9) { animation-delay: 0.9s; }
+
+        .demo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
-        input:checked~.menu {
-            max-height: 300px;
+        .demo-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #667eea;
         }
 
-        /* mediaquery */
-        @media screen and (min-width: 768px) {
-            label {
-                display: none;
+        .demo-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .demo-path {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #999;
+            font-family: 'Courier New', monospace;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
             }
-
-            .menu {
-                float: right;
-                clear: none;
-                max-height: 50px;
-                background: #eee;
-                ㄠ
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            .menu li {
-                display: inline-block;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-            .menu li a {
-                padding: 0 15px;
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .demos-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
-    <script src="snowfall.js"></script>
 </head>
-
 <body>
-    <p>
-        test
-    </p>
-    <img src="test.png" alt="沒讀到" height="100px" width="100px">
-    <p id="p1"></p>
-    <button onclick="window.print()">列印</button>
-    <p id="test"></p>
-    <button class="btn" onclick="ck()">click</button>
+    <div class="container">
+        <header>
+            <h1>🎨 前端練習小天地</h1>
+            <p class="subtitle">Frontend Playground & Demo Collection</p>
+        </header>
 
-    <!-- nav漢堡控制項 -->
-    <nav>
-        <h1>漢堡控制項練習(Pure Css版)</h1>
-        <label for="switch"><img src="burger.png" alt="找不到漢堡啦！"></label>
-        <input type="checkbox" name="" id="switch"><!--選單開關-->
-        <ul class="menu">
-            <li><a href="#t5">Page1</a></oi>
-            <li><a href="page2.html">Page2</a></oi>
-            <li><a href="page3.html">Page3</a></oi>
-            <li><a href="./accroding/index.html">滑塊頁面</a></oi>
-            <li><a href="./scroll/index.html">滾動頁面</a></oi>
-        </ul>
-    </nav>
+        <div class="demos-grid" id="demosGrid">
+            <!-- Demos will be populated by JavaScript -->
+        </div>
 
-    <ul>
-        <oi><button id="btn1" onclick="LinkToPage()">1</button></li>
-            <oi><button id="btn2" onclick="LinkToPage()">2</button></li>
-                <oi><button id="btn3" onclick="LinkToPage()">3</button></li>
-                    <oi><button>4</button></li>
-                        <oi><button>5</button></li>
-    </ul>
-
-
-    <h1 id="t1">我是h1</h1>
-
-
-    <h1 id="t2">我是h1</h1>
-
-
-    <h1 id="t3">我是h2</h1>
-
-
-    <h1 id="t4">我是h4</h1>
-
-    <h1 id="t5">我是h5</h1>
-
-
-
-    <div>
-        <!-- your content goes here  -->
-        <p>
-            Bear claw gummi bears danish ice cream halvah cotton candy pastry chocolate bar. Croissant cotton candy
-            cotton candy jelly beans shortbread cheesecake sugar plum. Marshmallow brownie liquorice jelly carrot cake
-            bonbon jelly-o ice cream. Sweet roll cupcake tootsie roll candy sugar plum gingerbread pastry. Halvah carrot
-            cake lemon drops cake marshmallow gingerbread pie sesame snaps. Cheesecake lemon drops muffin sweet wafer
-            chupa chups. Pudding gummi bears cupcake powder chocolate bar cupcake. Sesame snaps macaroon candy jelly ice
-            cream sweet muffin wafer carrot cake. Marzipan tart powder pudding cookie gummies oat cake toffee. Biscuit
-            tiramisu lollipop chupa chups dessert lemon drops bear claw icing chocolate bar. Cupcake gingerbread powder
-            bonbon ice cream lemon drops topping. Gingerbread candy lemon drops jelly candy soufflé. Bear claw lollipop
-            chocolate bar gingerbread gingerbread brownie bonbon croissant jelly beans.
-
-            Croissant tiramisu candy canes danish dragée lemon drops. Tart dessert dragée fruitcake bear claw danish
-            gingerbread. Croissant gingerbread chocolate cake apple pie sweet roll cotton candy. Jelly jelly icing
-            toffee cotton candy. Soufflé tart sweet roll chocolate sesame snaps fruitcake carrot cake. Wafer biscuit
-            cotton candy sweet icing. Sesame snaps sesame snaps gummi bears topping macaroon liquorice. Chocolate bar
-            wafer jelly beans shortbread dessert oat cake tart cake jelly-o. Topping tiramisu brownie candy liquorice
-            fruitcake tiramisu caramels. Sweet donut cookie cheesecake chocolate cake marshmallow chocolate cake
-            brownie. Gummi bears sugar plum sugar plum chocolate bar dragée pie gummies. Sweet candy canes icing
-            macaroon cookie pie jujubes sugar plum. Cake fruitcake pastry muffin sweet roll bear claw. Topping pudding
-            bonbon pudding cookie marshmallow.
-
-            Liquorice halvah ice cream liquorice powder tart jelly-o cotton candy. Carrot cake sweet halvah muffin candy
-            canes shortbread. Brownie soufflé sesame snaps caramels pie. Gingerbread apple pie toffee topping gummi
-            bears cake tiramisu. Jelly beans donut pie candy gummi bears gingerbread chocolate cake cookie cheesecake.
-            Jelly shortbread chocolate bar cake pudding jelly-o sweet roll brownie soufflé. Shortbread liquorice donut
-            bear claw chupa chups. Sugar plum wafer gummi bears cheesecake cake dragée pudding cupcake. Dessert biscuit
-            soufflé candy topping jelly beans. Shortbread gummies pastry oat cake cheesecake cheesecake. Icing
-            shortbread macaroon jelly-o brownie. Toffee toffee gummi bears jelly beans jelly-o dragée.
-
-            Toffee chupa chups carrot cake carrot cake chocolate bar ice cream. Ice cream powder muffin fruitcake candy
-            canes. Dessert danish jujubes shortbread ice cream. Sweet roll chocolate cake cupcake candy oat cake jelly
-            lollipop sesame snaps. Sugar plum croissant chupa chups cake candy. Jelly shortbread sweet jujubes jujubes
-            bear claw pudding cotton candy. Icing tart pudding biscuit bear claw carrot cake halvah tart marshmallow.
-            Cupcake bonbon gingerbread brownie muffin. Cotton candy lemon drops cake powder apple pie. Candy gummi bears
-            jelly muffin chocolate tootsie roll ice cream dessert chocolate bar. Marzipan pie oat cake croissant danish
-            cupcake lemon drops. Donut chocolate jelly sugar plum apple pie bonbon.
-        </p>
+        <footer>
+            <p>持續更新中... | Keep Learning, Keep Building 🚀</p>
+        </footer>
     </div>
-    <div class="container-top">
-        <a href="#" class="top">Back to Top ↑</a>
-    </div>
+
     <script>
-        let snowfall = new Snowfall({
-            // number of snowflakes
-            count: 100,
-            // min/max size
-            minRadius: 10,
-            maxRadius: 30,
-            // min/max speed
-            minSpeed: 3,
-            maxSpeed: 10,
-            // custom symbol or text for snowflakes
-            text: "\u26C4",
-            // color of snowflakes
-            color: "black",
-            // z-index for the canvas
-            zIndex: "1000"
-        });
-        var btn = document.getElementsByClassName("btn");
-        var count = 0;
-        function ck() {
-            var p1 = document.getElementById("p1");
-            p1.innerHTML = count++;
-
-        }
-        function LinkToPage() {
-            var btn = document.getElementsByTagName("button");
-            for (let i = 0; btn.length; i++) {
-                if (btn[i].id === "btn1") {
-                    btn[i].href = "t5"
-                }
-                else if (btn[i].id === "btn2") {
-                    btn[i].href = "page2.html"
-                }
-                else if (btn[i].id === "btn3") {
-                    btn[i].href = "page3.html"
-                }
+        const demos = [
+            {
+                title: '手風琴效果',
+                description: 'Accordion 滑塊展示效果',
+                path: 'demos/accroding/index.html',
+                icon: '🎹'
+            },
+            {
+                title: '名片卡片',
+                description: 'Bootstrap 風格的名片卡片設計',
+                path: 'demos/bsCard/index.html',
+                icon: '💼'
+            },
+            {
+                title: '貓咪與魚',
+                description: 'Fish Cat 互動展示',
+                path: 'demos/fishCat/index.html',
+                icon: '🐱'
+            },
+            {
+                title: '專案一',
+                description: 'Project 1 Demo',
+                path: 'demos/proj1/index.html',
+                icon: '📦'
+            },
+            {
+                title: '專案二',
+                description: 'Project 2 Demo',
+                path: 'demos/proj2/index.html',
+                icon: '📦'
+            },
+            {
+                title: '全頁滾動',
+                description: 'DocSlider 全頁滾動效果',
+                path: 'demos/scroll/index.html',
+                icon: '📜'
+            },
+            {
+                title: '願望清單',
+                description: 'Wish List 功能展示',
+                path: 'demos/wishList/index.html',
+                icon: '✨'
+            },
+            {
+                title: '表單測試',
+                description: 'JavaScript 表單測試頁面',
+                path: 'demos/JS_Form Test.html',
+                icon: '📝'
+            },
+            {
+                title: '頁面二',
+                description: 'Page 2 Demo',
+                path: 'demos/page2.html',
+                icon: '📄'
+            },
+            {
+                title: '頁面三',
+                description: 'Page 3 Demo',
+                path: 'demos/page3.html',
+                icon: '📄'
             }
-        }
-    </script>
-    <script src="fetchUbike.js"></script>
-</body>
+        ];
 
+        const demosGrid = document.getElementById('demosGrid');
+        
+        demos.forEach(demo => {
+            const card = document.createElement('a');
+            card.href = demo.path;
+            card.className = 'demo-card';
+            card.innerHTML = `
+                <span class="demo-icon">${demo.icon}</span>
+                <div class="demo-title">${demo.title}</div>
+                <div class="demo-description">${demo.description}</div>
+                <div class="demo-path">${demo.path}</div>
+            `;
+            demosGrid.appendChild(card);
+        });
+    </script>
+</body>
 </html>
