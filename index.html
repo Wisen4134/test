@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>前端練習小天地 | Frontend Playground</title>
+    <title>前端Demo區</title>
     <style>
         * {
             margin: 0;
@@ -13,10 +13,10 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f5f5;
             min-height: 100vh;
             padding: 2rem;
-            color: #333;
+            color: #222;
         }
 
         .container {
@@ -26,20 +26,22 @@
 
         header {
             text-align: center;
-            color: white;
-            margin-bottom: 3rem;
-            animation: fadeInDown 0.6s ease-out;
+            color: #222;
+            margin-bottom: 2rem;
+        }
+
+        header {
+            animation: headerIn 600ms ease-out both;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.2rem;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 1rem;
+            color: #666;
         }
 
         .demos-grid {
@@ -50,71 +52,115 @@
         }
 
         .demo-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            transition: box-shadow 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            display: block;
-            animation: fadeInUp 0.6s ease-out;
-            animation-fill-mode: both;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            position: relative;
+            overflow: hidden;
+
+            /* 進場動畫：JS 會加上 is-visible 觸發 */
+            opacity: 0;
+            transform: translateY(12px);
+            border: 1px solid transparent;
+        }
+
+        .demo-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            opacity: 0;
+            transform: translateX(-6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
         .demo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            border-color: rgba(102, 126, 234, 0.25);
         }
 
-        .demo-card:nth-child(1) { animation-delay: 0.1s; }
-        .demo-card:nth-child(2) { animation-delay: 0.2s; }
-        .demo-card:nth-child(3) { animation-delay: 0.3s; }
-        .demo-card:nth-child(4) { animation-delay: 0.4s; }
-        .demo-card:nth-child(5) { animation-delay: 0.5s; }
-        .demo-card:nth-child(6) { animation-delay: 0.6s; }
-        .demo-card:nth-child(7) { animation-delay: 0.7s; }
-        .demo-card:nth-child(8) { animation-delay: 0.8s; }
-        .demo-card:nth-child(9) { animation-delay: 0.9s; }
+        .demo-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: cardIn 520ms ease-out both;
+            animation-delay: calc(var(--i) * 60ms);
+        }
 
-        .demo-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: block;
+        .demo-card.is-visible::before {
+            opacity: 0.85;
+            transform: translateX(0);
+        }
+
+        .demo-card:hover::before {
+            opacity: 1;
+        }
+
+        .demo-card:focus-visible {
+            outline: 3px solid rgba(102, 126, 234, 0.25);
+            outline-offset: 2px;
         }
 
         .demo-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #667eea;
+            margin-bottom: 0.35rem;
+            color: #1f2a37;
         }
 
         .demo-description {
             color: #666;
             font-size: 0.9rem;
             line-height: 1.5;
+
+            /* 避免每個卡片文字長短差太多造成版面零散 */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            overflow: hidden;
+        }
+
+        .demo-meta {
+            margin-top: auto;
+            padding-top: 0.9rem;
+            font-size: 0.8rem;
+            color: #8a94a6;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .demo-path {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #999;
-            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
         }
 
         footer {
             text-align: center;
-            color: white;
+            color: #666;
             margin-top: 3rem;
-            opacity: 0.8;
         }
 
-        @keyframes fadeInDown {
+        @keyframes headerIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-8px);
             }
             to {
                 opacity: 1;
@@ -122,14 +168,25 @@
             }
         }
 
-        @keyframes fadeInUp {
+        @keyframes cardIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(12px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            header, .demo-card {
+                animation: none !important;
+                transition: none !important;
+            }
+            .demo-card {
+                opacity: 1;
+                transform: none;
             }
         }
 
@@ -146,8 +203,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎨 前端練習小天地</h1>
-            <p class="subtitle">Frontend Playground & Demo Collection</p>
+            <h1>前端Demo區</h1>
         </header>
 
         <div class="demos-grid" id="demosGrid">
@@ -155,7 +211,7 @@
         </div>
 
         <footer>
-            <p>持續更新中... | Keep Learning, Keep Building 🚀</p>
+            <p>持續更新中，歡迎隨時來看看。</p>
         </footer>
     </div>
 
@@ -164,78 +220,87 @@
             {
                 title: '手風琴效果',
                 description: 'Accordion 滑塊展示效果',
-                path: 'demos/accroding/index.html',
-                icon: '🎹'
+                path: 'demos/accroding/index.html'
             },
             {
                 title: '名片卡片',
                 description: 'Bootstrap 風格的名片卡片設計',
-                path: 'demos/bsCard/index.html',
-                icon: '💼'
+                path: 'demos/bsCard/index.html'
             },
             {
                 title: '貓咪與魚',
                 description: 'Fish Cat 互動展示',
-                path: 'demos/fishCat/index.html',
-                icon: '🐱'
+                path: 'demos/fishCat/index.html'
             },
             {
                 title: '專案一',
                 description: 'Project 1 Demo',
-                path: 'demos/proj1/index.html',
-                icon: '📦'
+                path: 'demos/proj1/index.html'
             },
             {
                 title: '專案二',
                 description: 'Project 2 Demo',
-                path: 'demos/proj2/index.html',
-                icon: '📦'
+                path: 'demos/proj2/index.html'
             },
             {
                 title: '全頁滾動',
                 description: 'DocSlider 全頁滾動效果',
-                path: 'demos/scroll/index.html',
-                icon: '📜'
+                path: 'demos/scroll/index.html'
             },
             {
                 title: '願望清單',
                 description: 'Wish List 功能展示',
-                path: 'demos/wishList/index.html',
-                icon: '✨'
+                path: 'demos/wishList/index.html'
             },
             {
                 title: '表單測試',
                 description: 'JavaScript 表單測試頁面',
-                path: 'demos/JS_Form Test.html',
-                icon: '📝'
+                path: 'demos/JS_Form Test.html'
             },
             {
                 title: '頁面二',
                 description: 'Page 2 Demo',
-                path: 'demos/page2.html',
-                icon: '📄'
+                path: 'demos/page2.html'
             },
             {
                 title: '頁面三',
                 description: 'Page 3 Demo',
-                path: 'demos/page3.html',
-                icon: '📄'
+                path: 'demos/page3.html'
             }
         ];
 
         const demosGrid = document.getElementById('demosGrid');
+
+        function toDisplayPath(path) {
+            // 把路徑簡化成更好看的入口名稱，讓卡片資訊更集中
+            let p = String(path || '');
+            p = p.replace(/^demos\//, '');
+            p = p.replace(/\/index\.html$/, '');
+            p = p.replace(/\.html$/, '');
+            return p;
+        }
         
-        demos.forEach(demo => {
+        demos.forEach((demo, index) => {
             const card = document.createElement('a');
             card.href = demo.path;
             card.className = 'demo-card';
+
+            // 讓每個卡片依序進場（用 CSS 計算 delay）
+            card.style.setProperty('--i', String(index));
             card.innerHTML = `
-                <span class="demo-icon">${demo.icon}</span>
                 <div class="demo-title">${demo.title}</div>
                 <div class="demo-description">${demo.description}</div>
-                <div class="demo-path">${demo.path}</div>
+                <div class="demo-meta">
+                    <div class="demo-path">入口：${toDisplayPath(demo.path)}</div>
+                </div>
             `;
             demosGrid.appendChild(card);
+        });
+
+        // 觸發進場動畫
+        requestAnimationFrame(() => {
+            const cards = document.querySelectorAll('.demo-card');
+            cards.forEach(card => card.classList.add('is-visible'));
         });
     </script>
 </body>
