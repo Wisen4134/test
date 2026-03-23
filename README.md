@@ -1,87 +1,78 @@
-# 🎨 前端練習小天地 | Frontend Playground
+# 🎨 前端Demo區 | Frontend Demo Zone
 
-這是一個用於練習 JavaScript、CSS 和各種前端功能與套件的專案集合。所有示範都可以透過 GitHub Pages 直接瀏覽。
+這是一個用於整理「各種前端常見功能/元件」的實驗性倉庫。你可以放入純 `HTML/CSS/JavaScript` 的練習，也可以把使用像 `Bootstrap`、`Vue`、`React`（或其他套件/框架）的範例放進來做快速驗證與學習。
 
-This is a collection of frontend practice projects and demos for JavaScript, CSS, and various features/libraries. All demos can be viewed directly via GitHub Pages.
+All registered demos are viewable via GitHub Pages.
 
-## 📁 專案結構 | Project Structure
+## 📌 首頁是動態產生的（方便擴充）
 
-```
+首頁 `index.html` 會讀取頁面內的 `demos` 陣列，並自動生成每個示範的入口卡片。
+
+因此未來你新增 demo 時，不需要維護一份「固定示範列表」：只要照新增流程把新入口註冊進 `demos` 陣列即可。
+
+## 📁 專案結構（概念性）
+
+```text
 .
-├── index.html          # 主頁面 | Main landing page
-├── demos/              # 所有示範專案 | All demo projects
-│   ├── accroding/      # 手風琴效果 | Accordion effect
-│   ├── bsCard/         # 名片卡片 | Business card
-│   ├── fishCat/        # 貓咪與魚 | Fish Cat demo
-│   ├── proj1/          # 專案一 | Project 1
-│   ├── proj2/          # 專案二 | Project 2
-│   ├── scroll/          # 全頁滾動 | Full page scroll
-│   └── wishList/       # 願望清單 | Wish list
-├── assets/             # 共用資源 | Shared assets
-│   ├── images/         # 圖片 | Images
-│   ├── js/             # JavaScript 檔案 | JavaScript files
-│   └── videos/         # 影片 | Videos
-└── README.md           # 說明文件 | Documentation
+├── index.html          # 首頁（動態顯示 demo 入口）
+├── demos/             # 多個實驗入口（每個實驗可放自己的入口頁，如 index.html）
+├── assets/            # 共用資源（圖片/腳本/影片等，可按需擴充）
+└── README.md
 ```
 
-## 🚀 如何使用 | How to Use
+> 註：實際子資料夾名稱會隨你的實驗內容持續調整；重點是「每個 demo 有自己的入口頁，並在首頁註冊」。
+
+## 🚀 如何使用（本地開發 / GitHub Pages）
 
 ### 本地開發 | Local Development
 
 1. 克隆此專案 | Clone this repository
+
    ```bash
    git clone <your-repo-url>
-   cd "git-page of test proj"
+   cd "<your-project-folder>"
    ```
 
-2. 直接在瀏覽器開啟 `index.html` 或使用本地伺服器
+2. 使用簡單伺服器啟動（避免部分資源路徑在某些瀏覽器下受限）
+
    ```bash
    # 使用 Python
    python -m http.server 8000
-   
-   # 或使用 Node.js (需要安裝 http-server)
+
+   # 或使用 Node.js（需要安裝 http-server）
    npx http-server
    ```
 
-3. 在瀏覽器開啟 `http://localhost:8000`
+3. 瀏覽器開啟 `http://localhost:8000`
 
 ### GitHub Pages 部署 | GitHub Pages Deployment
 
-1. 將專案推送到 GitHub
-2. 前往 Repository Settings > Pages
-3. 選擇 Source: `main` branch (或你的主要分支)
-4. 儲存後，你的網站將在 `https://<username>.github.io/<repo-name>` 上線
+1. 推送到 GitHub
+2. 到 Repository Settings > Pages
+3. 設定 Source（例如 `main` branch）並儲存
+4. 網站將可在 `https://<username>.github.io/<repo-name>` 存取
 
-## 📝 新增示範 | Adding New Demos
+## 📝 新增一個 demo | Adding New Demos
 
-1. 在 `demos/` 資料夾中建立新的資料夾
-2. 在該資料夾中建立 `index.html`
-3. 在根目錄的 `index.html` 中新增示範資訊到 `demos` 陣列
+1. 在 `demos/` 下建立你的 demo 資料夾（命名可自由調整）
+2. 在該資料夾放入入口頁（通常用 `index.html`）
+3. 回到根目錄的 `index.html`，在 `demos` 陣列新增一筆資訊：`title/description/path`
 
-範例 | Example:
-```javascript
+範例（目前首頁使用的欄位）| Example:
+
+```js
 {
-    title: '新示範',
-    description: '示範描述',
-    path: 'demos/new-demo/index.html',
-    icon: '🎯'
+  title: "新示範",
+  description: "示範描述",
+  path: "demos/new-demo/index.html"
 }
 ```
 
 ## 🛠️ 技術棧 | Tech Stack
 
-- HTML5
-- CSS3 (包含動畫與響應式設計)
-- Vanilla JavaScript
-- 各種前端套件與函式庫
-
-## 📚 示範列表 | Demo List
-
-- **手風琴效果** - CSS 手風琴滑塊展示
-- **名片卡片** - Bootstrap 風格卡片設計
-- **全頁滾動** - DocSlider 全頁滾動效果
-- **願望清單** - 互動式願望清單功能
-- 更多示範持續新增中...
+- HTML5 / CSS3
+- Vanilla JavaScript（以及可擴充的互動程式碼）
+- 依 demo 需求額外使用套件或框架（例如 Bootstrap / Vue / React 等）
 
 ## 📄 授權 | License
 
@@ -91,10 +82,10 @@ This project is for learning and practice purposes only.
 
 ## 🤝 貢獻 | Contributing
 
-歡迎提出建議與改進！
+歡迎提出建議與改進。
 
 Suggestions and improvements are welcome!
 
 ---
 
-**Happy Coding! 🎉**
+Happy Coding!
